@@ -1,0 +1,15 @@
+# Ignore all
+*
+
+# Unignore all with extensions
+!*.*
+
+# Unignore all dirs
+!*/
+
+!LICENSE
+
+# Ignore files with extension `.class` & `.sm`
+*.class
+*.sm
+

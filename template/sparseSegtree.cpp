@@ -1,10 +1,11 @@
 /* Sparse Segment Tree */
 template <class S, S (*op)(S, S), S (*e)()>
 struct sparseSegtree {
-  long long l, r;
+  long long  l, r;
   S val;
   sparseSegtree<S, op, e> *left, *right;
-  sparseSegtree(long long l, long long r, S val) : l(l), r(r), val(val) {
+  sparseSegtree(long long _l, long long _r) : sparseSegtree(_l, _r, e()) {}
+  sparseSegtree(long long _l, long long _r, S _val) : l(_l), r(_r), val(_val) {
     left = right = nullptr;
   }
   void set(long long i, S x) {

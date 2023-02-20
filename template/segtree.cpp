@@ -48,7 +48,7 @@ struct segtree {
   size_t prod_lower_bound(S x, int tl = 0, int tr = -1, int v = 1,
                           S acc = e()) {
     if (tr == -1) {
-      if (prod(0, _n - 1) <= x) return _n;
+      if (prod(0, _n - 1) < x) return _n;
       tr = _n - 1;
     }
     if (tl == tr) return tl;

@@ -1,12 +1,39 @@
-template <class S, S (*op)(S, S), S (*e)(), class F, S (*mapping)(F, S),
-          F (*composition)(F, F), F (*id)()>
+/**
+ * Lazy Segment Tree
+ * @tparam S type of stored data
+ * @tparam op associative binary operation S x S -> S
+ * @tparam e identity element of op void -> S
+ * @tparam F type of lazy data
+ * @tparam mapping mapping F x S -> S
+ * @tparam composition composition F_new x F_old -> F
+ * @tparam id identity element of composition void -> F
+ */
+template <class S, auto op, auto e, class F, auto mapping, auto composition,
+          auto id>
 struct lazySegtree {
   int _n;
   vector<S> d;
   vector<F> lz;
+
+  /**
+   * @brief Construct a new lazy Segtree object
+   */
   lazySegtree() : lazySegtree(0) {}
+
+  /**
+   * @brief Construct a new lazy Segtree object
+   * @param n size of the array
+   */
   lazySegtree(int n) : lazySegtree(vector<S>(n, e())) {}
-  lazySegtree(vector<S> a) : _n((int)a.size()), d(4 * (int)a.size()), lz(4 * (int)a.size(), id()) { build(a); }
+
+  /**
+   * @brief Construct a new lazy Segtree object
+   * @param a vector of initial values
+   */
+  lazySegtree(vector<S> a)
+      : _n((int)a.size()), d(4 * (int)a.size()), lz(4 * (int)a.size(), id()) {
+    build(a);
+  }
 
   void build(const vector<S> &a, int v = 1, int tl = 0, int tr = -1) {
     if (tr == -1) tr = _n - 1;
@@ -33,6 +60,11 @@ struct lazySegtree {
 
   void update(int v) { d[v] = op(d[2 * v], d[2 * v + 1]); }
 
+  /**
+   * @brief Set a[p] = x
+   * @param pos index
+   * @param val value
+   */
   void set(int pos, S val, int v = 1, int tl = 0, int tr = -1) {
     if (tr == -1) tr = _n - 1;
 
@@ -50,7 +82,12 @@ struct lazySegtree {
     }
   }
 
-  /** Apply to [l,r] */
+  /**
+   * @brief Apply f to a[l] ... a[r-1]
+   * @param l left index
+   * @param r right index
+   * @param f lazy data
+   */
   void apply(int l, int r, F f, int v = 1, int tl = 0, int tr = -1) {
     if (tr == -1) tr = _n - 1;
     if (r < l) return;
@@ -66,7 +103,11 @@ struct lazySegtree {
     }
   }
 
-  /** a[l] x a[l+1] x ... x a[r] */
+  /**
+   * @brief get op(a[l] ... a[r-1])
+   * @param l left index
+   * @param r right index
+   */
   S prod(int l, int r, int v = 1, int tl = 0, int tr = -1) {
     if (tr == -1) tr = _n - 1;
     if (r < l) return e();

@@ -13,3 +13,6 @@
 *.class
 *.sm
 
+a.out
+input.txt
+test.cpp

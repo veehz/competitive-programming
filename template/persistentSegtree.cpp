@@ -2,8 +2,9 @@
 template <class S, S (*op)(S, S), S (*e)()>
 struct persistentSegtree {
   long long l, r;
-  S val;
-  persistentSegtree<S, op, e>*left, *right;
+  S val{e()};
+  persistentSegtree<S, op, e>* left{nullptr};
+  persistentSegtree<S, op, e>* right{nullptr};
 
   persistentSegtree(long long _l, long long _r)
       : persistentSegtree(_l, _r, e()) {}
@@ -13,8 +14,10 @@ struct persistentSegtree {
     left = right = nullptr;
   }
 
-  persistentSegtree(vector<S>& a) : persistentSegtree(0, a.size() - 1, a) {}
-  persistentSegtree(long long _l, long long _r, vector<S>& a) : l(_l), r(_r) {
+  persistentSegtree(const vector<S>& a)
+      : persistentSegtree(0, a.size() - 1, a) {}
+  persistentSegtree(long long _l, long long _r, const vector<S>& a)
+      : l(_l), r(_r) {
     if (l == r) {
       val = a[l];
       return;
@@ -25,13 +28,12 @@ struct persistentSegtree {
   }
   persistentSegtree(persistentSegtree* ln, persistentSegtree* rn)
       : l(ln->l), r(rn->r), val(op(ln->val, rn->val)), left(ln), right(rn) {}
-  persistentSegtree(persistentSegtree* original) {
-    l = original->l;
-    r = original->r;
-    val = original->val;
-    left = original->left;
-    right = original->right;
-  }
+  persistentSegtree(persistentSegtree* original)
+      : l(original->l),
+        r(original->r),
+        val(original->val),
+        left(original->left),
+        right(original->right) {}
 
   persistentSegtree* set(long long i, S x) {
     if (l == r) {
@@ -49,7 +51,7 @@ struct persistentSegtree {
     }
   }
 
-  S prod(long long ql, long long qr) {
+  S prod(long long ql, long long qr) const {
     if (qr < l || r < ql) return e();
     if (ql <= l && r <= qr) return val;
     S sml = e(), smr = e();

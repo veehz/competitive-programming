@@ -43,5 +43,5 @@ struct dsu {
     map_roots();
   }
   int compress(int x) { return mp[find(x)]; }
-  int decompress(int x) { return roots[x]; }
+  int decompress(int x) const { return roots[x]; }
 };

@@ -11,7 +11,7 @@ struct segtree {
     d.assign(4 * _n, e());
     build(v);
   }
-  void build(vector<S>& a, int v = 1, int tl = 0, int tr = -1) {
+  void build(const vector<S>& a, int v = 1, int tl = 0, int tr = -1) {
     if (tr == -1) tr = _n - 1;
     if (tl == tr) {
       d[v] = a[tl];
@@ -36,7 +36,7 @@ struct segtree {
       d[v] = op(d[2 * v], d[2 * v + 1]);
     }
   }
-  S prod(int l, int r, int tl = 0, int tr = -1, int v = 1) {
+  S prod(int l, int r, int tl = 0, int tr = -1, int v = 1) const {
     if (tr == -1) tr = _n - 1;
     if (r < l) return e();
     if (l == tl && r == tr) return d[v];

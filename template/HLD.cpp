@@ -28,7 +28,7 @@ struct HLD {
   int dfs(int u, const vector<vector<int>>& _adj) {
     int cur_sz = 1;
     int max_ch_sz = 0;
-    for (auto& v : _adj[u]) {
+    for (auto v : _adj[u]) {
       if (v == par[u]) continue;
       par[v] = u, depth[v] = depth[u] + 1;
       int v_sz = dfs(v, _adj);

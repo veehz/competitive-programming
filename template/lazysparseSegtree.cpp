@@ -59,7 +59,7 @@ struct lazysparseSegtree {
     }
   }
 
-  S prod(ll ql, ll qr) {
+  S prod(ll ql, ll qr) const {
     if (qr < l || r < ql) return e();
     if (ql <= l && r <= qr) return val;
     push();
@@ -69,6 +69,6 @@ struct lazysparseSegtree {
     return op(sml, smr, 1);
   }
 
-  S prod(ll q) { return prod(q, q); }
+  S prod(ll q) const { return prod(q, q); }
 };
 /* End: Lazy Sparse Segment Tree */
